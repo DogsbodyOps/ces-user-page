@@ -1,0 +1,332 @@
+/* =========================================================
+   CES User Creation Portal — Stylesheet
+   ========================================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-primary:     #1d4ed8;
+    --color-primary-dk:  #1e40af;
+    --color-danger:      #dc2626;
+    --color-success:     #16a34a;
+    --color-success-lt:  #dcfce7;
+    --color-warning:     #d97706;
+    --color-bg:          #f1f5f9;
+    --color-surface:     #ffffff;
+    --color-border:      #cbd5e1;
+    --color-text:        #0f172a;
+    --color-text-muted:  #64748b;
+    --radius:            6px;
+    --shadow:            0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-header {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    box-shadow: var(--shadow);
+}
+
+.site-header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+.site-header a {
+    color: rgba(255,255,255,.85);
+    text-decoration: none;
+    font-size: .875rem;
+    transition: color .15s;
+}
+
+.site-header a:hover { color: #fff; }
+
+.container {
+    width: 100%;
+    max-width: 760px;
+    margin: 2.5rem auto;
+    padding: 0 1rem;
+    flex: 1;
+}
+
+.container--narrow {
+    max-width: 420px;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: .75rem;
+}
+
+/* ── Alerts ──────────────────────────────────────────────── */
+
+.alert {
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: .9rem;
+    border-left: 4px solid transparent;
+}
+
+.alert--error {
+    background: #fef2f2;
+    border-color: var(--color-danger);
+    color: #7f1d1d;
+}
+
+.alert--success {
+    background: var(--color-success-lt);
+    border-color: var(--color-success);
+    color: #14532d;
+}
+
+.alert--warning {
+    background: #fffbeb;
+    border-color: var(--color-warning);
+    color: #78350f;
+}
+
+/* ── Form elements ───────────────────────────────────────── */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 520px) {
+    .form-row { grid-template-columns: 1fr; }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: .875rem;
+    font-weight: 500;
+    margin-bottom: .35rem;
+    color: var(--color-text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: .5rem .75rem;
+    font-size: .95rem;
+    color: var(--color-text);
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(29,78,216,.15);
+}
+
+.form-group input:invalid:not(:placeholder-shown) {
+    border-color: var(--color-danger);
+}
+
+.required {
+    color: var(--color-danger);
+    margin-left: .15rem;
+}
+
+.form-hint {
+    font-size: .78rem;
+    color: var(--color-text-muted);
+    margin-top: .25rem;
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: .75rem;
+    justify-content: flex-end;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: .9rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s, box-shadow .15s;
+    line-height: 1.5;
+}
+
+.btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+.btn--primary:hover {
+    background: var(--color-primary-dk);
+    box-shadow: 0 2px 6px rgba(29,78,216,.35);
+}
+
+.btn--secondary {
+    background: transparent;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+}
+.btn--secondary:hover {
+    background: var(--color-bg);
+}
+
+/* ── Result box ──────────────────────────────────────────── */
+
+.result-box {
+    background: var(--color-success-lt);
+    border: 1px solid #86efac;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.result-box__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #14532d;
+    margin-bottom: 1rem;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.result-table th,
+.result-table td {
+    text-align: left;
+    padding: .5rem .75rem;
+    font-size: .9rem;
+    border-bottom: 1px solid #bbf7d0;
+}
+
+.result-table th {
+    font-weight: 600;
+    color: #166534;
+    width: 45%;
+}
+
+.result-table td {
+    color: var(--color-text);
+    font-family: 'Consolas', 'Courier New', monospace;
+    word-break: break-all;
+}
+
+.result-table tr:last-child th,
+.result-table tr:last-child td {
+    border-bottom: none;
+}
+
+.password-cell {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.copy-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: .15rem .45rem;
+    font-size: .75rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: background .12s;
+    white-space: nowrap;
+}
+.copy-btn:hover { background: #f0fdf4; }
+
+/* ── Login page ──────────────────────────────────────────── */
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-logo span {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: .04em;
+}
+
+.login-logo p {
+    color: var(--color-text-muted);
+    font-size: .875rem;
+    margin-top: .2rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.site-footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: .78rem;
+    color: var(--color-text-muted);
+}
