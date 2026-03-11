@@ -1,0 +1,13 @@
+# Sensitive configuration — copy settings.example.php to settings.php and populate it
+config/settings.php
+
+# OS / editor artefacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.log
+
+# PHP session files
+/tmp/
