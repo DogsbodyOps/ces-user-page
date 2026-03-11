@@ -1,20 +1,11 @@
 <?php
 /**
  * index.php — User creation form.
- *
- * Requires an authenticated session (redirects to login.php if not present).
  */
 
 declare(strict_types=1);
 
-session_start();
-
-if (empty($_SESSION['authenticated'])) {
-    header('Location: login.php');
-    exit;
-}
-
-require_once __DIR__ . '/config/customers.php';
+session_start(); // Session is used to store the CSRF token
 $customers = get_customers();
 
 // Issue a CSRF token if one does not exist yet
@@ -42,12 +33,6 @@ unset($_SESSION['old_input']);
 
 <header class="site-header">
     <h1>CES — Active Directory User Portal</h1>
-    <nav>
-        <span style="color:rgba(255,255,255,.7);font-size:.85rem;margin-right:1rem;">
-            Signed in as <?= htmlspecialchars($_SESSION['username'] ?? '') ?>
-        </span>
-        <a href="logout.php">Sign out</a>
-    </nav>
 </header>
 
 <main>

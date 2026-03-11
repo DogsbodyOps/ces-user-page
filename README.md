@@ -13,7 +13,6 @@ A PHP web portal that lets authorised staff create Active Directory user account
 | Secure password | 16-character random password (≤ 20 chars) with upper, lower, digit and special characters |
 | Change at next logon | All accounts require a password reset on first login |
 | CSRF protection | Token validated on every form submission |
-| Brute-force protection | 5-attempt lockout for 5 minutes on login |
 | Input validation | Server-side regex validation of all fields; sanitisation of free-text inputs |
 | Injection-safe | User data passed to PowerShell via a temp file — nothing user-supplied ever appears on the command line |
 
@@ -42,30 +41,7 @@ Place all files under a directory served by IIS (or any PHP-capable web server o
 C:\inetpub\wwwroot\ces-user-page\
 ```
 
-### 2 — Create the settings file
-
-```powershell
-Copy-Item config\settings.example.php config\settings.php
-```
-
-Edit `config\settings.php` and set a bcrypt-hashed password for each authorised user:
-
-```powershell
-# Generate a hash in PowerShell
-php -r "echo password_hash('YourPassword', PASSWORD_BCRYPT);"
-```
-
-Paste the hash into `config\settings.php`:
-
-```php
-'users' => [
-    'admin' => '$2y$12$<your hash here>',
-],
-```
-
-> **Security tip:** Consider placing `config\settings.php` outside the web root and updating the `require` path in `login.php`.
-
-### 3 — Configure customers
+### 2 — Configure customers
 
 Edit `config\customers.php` and replace the example entries with your real customers:
 
@@ -77,7 +53,7 @@ Edit `config\customers.php` and replace the example entries with your real custo
 ],
 ```
 
-### 4 — Set PowerShell execution policy
+### 3 — Set PowerShell execution policy
 
 The IIS application pool account must be able to run the script:
 
@@ -87,9 +63,9 @@ Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned
 
 Or restrict it to the script path via a GPO / IIS `web.config` setting.
 
-### 5 — Test
+### 4 — Test
 
-Browse to `https://<your-server>/ces-user-page/` and sign in with the credentials from step 2.
+Browse to `https://<your-server>/ces-user-page/` and create a user.
 
 ---
 
@@ -97,14 +73,10 @@ Browse to `https://<your-server>/ces-user-page/` and sign in with the credential
 
 ```
 ces-user-page/
-├── index.php                   # User creation form (requires auth)
-├── login.php                   # Login page
-├── logout.php                  # Session destroy
+├── index.php                   # User creation form
 ├── process.php                 # Form handler → calls PowerShell → shows result
 ├── config/
-│   ├── customers.php           # Customer → OU + groups mapping
-│   ├── settings.example.php    # Credentials template (commit-safe)
-│   └── settings.php            # Live credentials (gitignored — create from example)
+│   └── customers.php           # Customer → OU + groups mapping
 ├── scripts/
 │   └── create_ad_user.ps1      # PowerShell: creates AD user, adds groups, returns JSON
 └── css/
@@ -115,9 +87,8 @@ ces-user-page/
 
 ## Security notes
 
-* `config/settings.php` is listed in `.gitignore` — never commit real credentials.
 * All user input is validated server-side before being passed to PowerShell.
 * User data travels to the PowerShell script via a temporary file (not the command line), preventing shell injection.
 * Passwords are generated inside the PowerShell script using `Get-Random` over a curated character set and are never stored anywhere.
-* Session IDs are regenerated on login to prevent session fixation.
 * The portal enforces HTTPS in production via standard IIS/web server configuration (configure TLS on the web server separately).
+* Access control is handled at the network/web-server level — restrict which hosts can reach the portal via firewall rules, IIS IP restrictions, or VPN access.

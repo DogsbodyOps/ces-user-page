@@ -3,7 +3,7 @@
  * process.php — Handles the user-creation form submission.
  *
  * Flow:
- *   1. Verify session and CSRF token.
+ *   1. Verify CSRF token.
  *   2. Validate and sanitise all user input.
  *   3. Write parameters to a secure temporary file (avoids shell injection).
  *   4. Call the PowerShell script, passing only the temp-file path.
@@ -12,13 +12,7 @@
 
 declare(strict_types=1);
 
-session_start();
-
-// ── Auth check ────────────────────────────────────────────────────────────────
-if (empty($_SESSION['authenticated'])) {
-    header('Location: login.php');
-    exit;
-}
+session_start(); // Session is used to store and validate the CSRF token
 
 // ── CSRF check ────────────────────────────────────────────────────────────────
 if (
@@ -148,12 +142,6 @@ $pageTitle = $success ? 'User Created Successfully' : 'User Creation Failed';
 
 <header class="site-header">
     <h1>CES — Active Directory User Portal</h1>
-    <nav>
-        <span style="color:rgba(255,255,255,.7);font-size:.85rem;margin-right:1rem;">
-            Signed in as <?= htmlspecialchars($_SESSION['username'] ?? '') ?>
-        </span>
-        <a href="logout.php">Sign out</a>
-    </nav>
 </header>
 
 <main>
